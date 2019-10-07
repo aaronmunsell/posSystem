@@ -6,6 +6,10 @@
 
 const fs = require("fs");
 const nodemailer = require("nodemailer");
+const process = require("process");
+
+let fileName = process.argv[2];
+let inputFile = process.argv[3];
 
 // Read in our SMTP values.
 fs.readFile("./secrets/secretkey.json", function(err, data) {
@@ -35,13 +39,13 @@ async function main(rtnVal) {
     to: to,
     subject: "node test",
     text: "Will this work?",
-    html: "<h3>Hello World!</h3>"
-    // attachments: [
-    //   {
-    //     filename: "richard_benson.png",
-    //     path: "./images/richard_benson.png"
-    //   }
-    // ]
+    html: "<h3>Hello World!</h3>",
+    attachments: [
+      {
+        filename: fileName,
+        path: inputFile
+      }
+    ]
   });
 
   console.log("Message sent: %s", info.messageId);
